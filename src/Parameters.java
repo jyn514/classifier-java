@@ -8,11 +8,13 @@ package src;
  * Copyright (C) 2017  Joshua Nelson
  */
 
-import com.beust.jcommander.*;
+import com.beust.jcommander.Parameter;
 
 import java.nio.file.Path;
+
 import java.util.Map;
 import java.util.List;
+
 
 public class Parameters {
 		

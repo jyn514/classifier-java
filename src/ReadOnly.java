@@ -26,23 +26,25 @@ import com.beust.jcommander.JCommander;
 public final class ReadOnly {
 
 	public final static class Validator {
-		
+
 		public static Path path;
-		
-		final static boolean pathIsValid(String arg) throws IllegalArgumentException {
+
+		final static boolean pathIsValid(String arg)
+				throws IllegalArgumentException {
 			path = filesystem.getPath(arg).toAbsolutePath();
-			if (Files.exists(path) && Files.isDirectory(path) && Files.isWritable(path)) {
+			if (Files.exists(path) && Files.isDirectory(path)
+					&& Files.isWritable(path)) {
 				return true;
 			}
 			return false;
 		}
 	}
-	
+
 	static final FileSystem filesystem = FileSystems.getDefault();
 	static final Runtime runtime = Runtime.getRuntime();
 	static Parameters parameters = new Parameters();
-	static final JCommander instance = makeInstance();	
-	
+	static final JCommander instance = makeInstance();
+
 	public static class EditorNotFoundException extends IOException {
 		private static final long serialVersionUID = 7369687033416439591L;
 
@@ -57,25 +59,26 @@ public final class ReadOnly {
 
 	static final String HELP = "Usage: Classifier DIRECTORY\n"
 			+ "    -h, --help";
-	
-	static final String COPYRIGHT = "Copyright (C) 2017  Joshua Nelson\n" + 
-			"   \n" + 
-			"   \n" + 
-			"    This program is free software: you can redistribute it and/or modify\n" + 
-			"    it under the terms of the GNU General Public License as published by\n" + 
-			"    the Free Software Foundation, either version 3 of the License, or\n" + 
-			"    (at your option) any later version.\n" + 
-			"  \n" + 
-			"    This program is distributed in the hope that it will be useful,\n" + 
-			"    but WITHOUT ANY WARRANTY; without even the implied warranty of\n" + 
-			"    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n" + 
-			"    GNU General Public License for more details.\n" + 
-			"  \n" + 
-			"    You should have received a copy of the GNU General Public License\n" + 
-			"    along with this program.  If not, see <http://www.gnu.org/licenses/>.";
 
-	static final Path MASTERCONF = filesystem.getPath(System.getProperty("user.home"),
-			".classifier.conf").toAbsolutePath();
+	static final String COPYRIGHT = "Copyright (C) 2017  Joshua Nelson\n"
+			+ "   \n"
+			+ "   \n"
+			+ "    This program is free software: you can redistribute it and/or modify\n"
+			+ "    it under the terms of the GNU General Public License as published by\n"
+			+ "    the Free Software Foundation, either version 3 of the License, or\n"
+			+ "    (at your option) any later version.\n"
+			+ "  \n"
+			+ "    This program is distributed in the hope that it will be useful,\n"
+			+ "    but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+			+ "    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+			+ "    GNU General Public License for more details.\n"
+			+ "  \n"
+			+ "    You should have received a copy of the GNU General Public License\n"
+			+ "    along with this program.  If not, see <http://www.gnu.org/licenses/>.";
+
+	static final Path MASTERCONF = filesystem.getPath(
+			System.getProperty("user.home"), ".classifier.conf")
+			.toAbsolutePath();
 
 	static final List<String> getConf(Path path) throws IOException {
 
@@ -114,10 +117,52 @@ public final class ReadOnly {
 		return tempMap;
 	}
 	
-	static final void classifyByExtension (Map<String, List<String>> config, Path directory) {
+	public static final void checkStackTraceOnError(IOException e) {
+		if (parameters.verbose) {
+			e.printStackTrace();
+		} else {
+			System.out.println("Run with -v for stack trace.");
+		}
+		parameters.exitImmediately = true;
+	}
+
+	static final void moveTo(Path directoryPath, File file) throws IOException {
+		File destination = directoryPath.toFile();
+		if (!destination.exists()) {
+			destination.mkdir();
+		} else if (!destination.isDirectory()) {
+			throw new IllegalStateException(
+					"You have an existing file with the same name as "
+							+ destination
+							+ ".\nChange the existing file or the config for Classifier.");
+		}
+		
+		Path filePath = file.toPath();
+		Files.move(filePath, directoryPath.resolve(filePath.getFileName()));
 		
 	}
-	
+
+	static final void classifyByExtension(Map<String, List<String>> config,
+			Path directoryPath) {
+
+		File directory = directoryPath.toFile();
+
+		for (File file : directory.listFiles()) {
+			String[] split = file.getName().split("\\.");
+			String extension = split[split.length - 1];
+			for (String s : config.keySet()) {
+				if (config.get(s).contains(extension)) {
+					try {
+						moveTo(directoryPath.resolve(s), file);
+					} catch (IOException e) {
+						System.out.println("Could not move file " + file + " to " + directoryPath);
+					}
+				}
+			}
+		}
+
+	}
+
 	static final void edit(Path path) throws IOException {
 		File file = path.toFile();
 		if (!file.exists()) {
@@ -180,4 +225,5 @@ public final class ReadOnly {
 		}
 		return false;
 	}
+
 }

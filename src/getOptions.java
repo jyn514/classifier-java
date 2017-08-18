@@ -15,11 +15,13 @@ import java.nio.file.Path;
 
 import java.util.Scanner;
 
+
 public class getOptions {
 
 	private static Parameters parameters;
 	private Scanner scanner = new Scanner(System.in);
-	private static final Path MASTER = ReadOnly.MASTERCONF; 
+	private static final Path MASTER = ReadOnly.MASTERCONF;
+
 	// got tired of typing
 
 	getOptions(Parameters givenParameters) {
@@ -33,7 +35,8 @@ public class getOptions {
 			parameters.exitImmediately = true;
 			iterateArgs();
 
-		} else if (parameters.directory.isEmpty()) { // checks for null string, not if dir is empty
+		} else if (parameters.directory.isEmpty()) { // checks for null string,
+														// not if dir is empty
 			System.out.println(ReadOnly.HELP);
 			parameters.exitImmediately = true;
 		} else {
@@ -45,7 +48,7 @@ public class getOptions {
 							.getConf(parameters.path));
 				} catch (IOException e) {
 					System.out.println("Could not read config file");
-					checkStackTraceOnError(e);
+					ReadOnly.checkStackTraceOnError(e);
 				}
 			} else {
 				System.out
@@ -76,7 +79,7 @@ public class getOptions {
 				} catch (IOException e) {
 					System.out.print("Could not delete " + MASTER
 							+ ", make sure you have the proper permissions.");
-					checkStackTraceOnError(e);
+					ReadOnly.checkStackTraceOnError(e);
 				}
 			} else {
 				System.out.println("Aborting.");
@@ -87,14 +90,14 @@ public class getOptions {
 						.getConf(parameters.path)));
 			} catch (IOException e) {
 				System.out.println("Could not access one or more files.");
-				checkStackTraceOnError(e);
+				ReadOnly.checkStackTraceOnError(e);
 			}
 		} else if (parameters.edit) {
 			try {
 				ReadOnly.edit(MASTER);
 			} catch (IOException e) {
 				System.out.println("Could not access " + MASTER);
-				checkStackTraceOnError(e);
+				ReadOnly.checkStackTraceOnError(e);
 			}
 		} else if (parameters.editLocal) {
 			if (ReadOnly.Validator.pathIsValid(parameters.directory)) {
@@ -104,18 +107,9 @@ public class getOptions {
 					ReadOnly.edit(LOCAL);
 				} catch (IOException e) {
 					System.out.println("Could not access " + LOCAL);
-					checkStackTraceOnError(e);
+					ReadOnly.checkStackTraceOnError(e);
 				}
 			}
 		}
-	}
-
-	private static void checkStackTraceOnError(IOException e) {
-		if (parameters.verbose) {
-			e.printStackTrace();
-		} else {
-			System.out.println("Run with -v for stack trace.");
-		}
-		parameters.exitImmediately = true;
 	}
 }
