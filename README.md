@@ -15,3 +15,6 @@ Organizes your files by extension. Can be used on arbitrary directories. Include
 * Books
 * Packages
 * Programs
+
+Copyright (C) 2017  Joshua Nelson
+Version 0.1
