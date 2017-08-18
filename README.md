@@ -16,5 +16,8 @@ Organizes your files by extension. Can be used on arbitrary directories. Include
 * Packages
 * Programs
 
+## Dependencies
+* [JCommander](https://jcommander.org/) as a argument parser
+
 Copyright (C) 2017  Joshua Nelson
 Version 0.1
