@@ -184,17 +184,17 @@ public final class ReadOnly {
     }
 
     protected static final List<String> DEFAULT = Arrays.asList(new String[] {
-            "Audio: aa, aac, aiff, amr, dvf, flac, gsm, m4a, m4b, m4p, midi, mp3, msv, ogg, ra, wav, wma",
-            "Ringtones: m4r, mmf, srt",
-            "Videos: 3g2, 3gp, amv, avi, flv, f4a, f4p, f4v, gifv, m4p, m4v, mkv, mp2, mp4, mpeg, mpg, ogv, rm, svi, ts, vob, webm, wmv",
-            "Pictures: bmp, bpg, gif, ico, jpeg, jpg, odg, png, psd, rgbe, svg, tiff, webp, vml",
-            "Archives: 7z, bz2, cpio, dmg, gz, iso, lz, rar, tar, tgz, xz, zip",
-            "Documents: ai, atom, doc, docx, kdb, kdbx, odf, odm, odp, ods, odt, pdf, ppsx, ppt, pptx, pub, qif, rtf, sxw, xls, xlsv, xlsx, xml, xt",
-            "Webpages: asp, aspx, cgi, htm, html, xhtml",
-            "Programming: a, c, cljs, coffee, class, d, e, el, erb, fth, go, java, js, lua, lisp, m, o, p, php, pl, pm, py, pyc, pyo, r, rb, so, tcl",
-            "Plain Text: asc, cer, cfg, conf, crt, css, csv, ini, inf, json, log, md, pem, pub, ppk, ssh, txt, xml, yaml",
-            "Books: chm, epub, fb2, mobi", "Packages: deb, ebuild, jar, rpm",
-            "Programs: bat, cmd, com, exe, msi, out, sh, vbs" });
+      "Archives: 7z, bz2, cpio, dmg, gz, iso, lz, rar, tar, tgz, xz, zip",
+      "Audio: aa, aac, aiff, amr, dvf, flac, gsm, m4a, m4b, m4p, midi, mp3, msv, ogg, ra, wav, wma",
+      "Books: chm, epub, fb2, mobi", "Packages: deb, ebuild, jar, rpm",
+      "Documents: ai, atom, doc, docx, kdb, kdbx, odf, odm, odp, ods, odt, pdf, ppsx, ppt, pptx, pub, qif, rtf, sxw, xls, xlsv, xlsx, xml, xt",
+      "Executables: bat, cmd, com, exe, msi, out, sh, vbs",
+      "Pictures: bmp, bpg, gif, ico, jpeg, jpg, odg, png, psd, rgbe, svg, tiff, webp, vml",
+      "Plain Text: asc, cer, cfg, conf, crt, css, csv, ini, inf, json, log, md, pem, pub, ppk, ssh, txt, xml, yaml",
+      "Programming: a, c, cljs, coffee, class, d, e, el, erb, fth, go, java, js, lua, lisp, m, o, p, php, pl, pm, py, pyc, pyo, r, rb, so, tcl",
+      "Ringtones: m4r, mmf, srt",
+      "Videos: 3g2, 3gp, amv, avi, flv, f4a, f4p, f4v, gifv, m4p, m4v, mkv, mp2, mp4, mpeg, mpg, ogv, rm, svi, ts, vob, webm, wmv",
+      "Webpages: asp, aspx, cgi, htm, html, xhtml" });
 
     private static Path findConf() {
         Path result = filesystem.getPath(System.getProperty("user.home"));
